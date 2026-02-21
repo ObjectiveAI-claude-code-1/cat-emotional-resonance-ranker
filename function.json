@@ -1,0 +1,105 @@
+{
+  "type": "vector.function",
+  "output_length": {
+    "$starlark": "len(input)"
+  },
+  "input_split": {
+    "$starlark": "[[item] for item in input]"
+  },
+  "input_merge": {
+    "$starlark": "[item for sublist in input for item in sublist]"
+  },
+  "input_schema": {
+    "type": "array",
+    "description": "A collection of cat pictures to be ranked by emotional resonance — the degree to which each image stirs genuine feeling in the viewer through vulnerability, narrative atmosphere, and spontaneous delight.",
+    "minItems": 2,
+    "items": {
+      "type": "image",
+      "description": "A cat picture to evaluate for emotional resonance."
+    }
+  },
+  "tasks": [
+    {
+      "type": "vector.completion",
+      "skip": null,
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "Show me a photograph of a cat caught in a completely unguarded moment — something private and unposed. A cat asleep in a position that defies all dignity, mid-yawn with its whole ridiculous mouth on display, or eyes half-closed in a slow blink of trust. I want to see vulnerability — a moment that invites empathy and makes me feel tender and protective, as though I am witnessing something honest that the cat did not perform for anyone."
+            }
+          ]
+        }
+      ],
+      "responses": {
+        "$starlark": "[[item] for item in input]"
+      },
+      "output": {
+        "$jmespath": "output.scores"
+      }
+    },
+    {
+      "type": "vector.completion",
+      "skip": null,
+      "messages": [
+        {
+          "role": "developer",
+          "content": [
+            {
+              "type": "text",
+              "text": "You are a curator selecting photographs for an exhibition called 'The Inner Lives of Cats.' Every photograph in the exhibition must suggest an emotional world beyond the edges of the frame — a story implied by the interplay of cat, light, and setting. The best selections make the viewer step into the scene and begin to wonder what the cat is thinking, whether it is content or lonesome, and what happened just before or after the photograph was taken."
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "Which photograph would you choose for the centerpiece of the exhibition? I want one with the richest narrative atmosphere — where the mood of the setting and the cat's presence together create a world with emotional weather that the viewer enters without deciding to. Something that lingers in the imagination long after you look away."
+            }
+          ]
+        }
+      ],
+      "responses": {
+        "$starlark": "[[item] for item in input]"
+      },
+      "output": {
+        "$jmespath": "output.scores"
+      }
+    },
+    {
+      "type": "vector.completion",
+      "skip": null,
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "I collect cat pictures that make people react before they can think — the ones that make someone laugh out loud, gasp with surprise, or feel a sudden stab of affection they didn't choose. The kind of picture where you stop scrolling instantly. I don't care about technical quality or careful composition. I want alive, surprising, irresistible — images that ambush the heart."
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "You want the ones that hit before the brain catches up — pure spontaneous delight. Here is the best one I have:"
+            }
+          ]
+        }
+      ],
+      "responses": {
+        "$starlark": "[[item] for item in input]"
+      },
+      "output": {
+        "$jmespath": "output.scores"
+      }
+    }
+  ],
+  "description": "Ranks cat pictures by emotional resonance — how much each image stirs genuine feeling rather than merely being seen. Evaluates vulnerability (unguarded, unposed moments), narrative atmosphere (implied story and mood beyond the frame), and spontaneous delight (involuntary laughter, affection, or wonder). Feeling over technique."
+}
